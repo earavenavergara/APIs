@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clima</title>
+    <style>
+      #container {
+        text-align: center;
+      }
+    </style>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $("form").submit(function () {
+          var txt = $("input").first().val();
+          //console.log(txt);
+          var url =
+            "http://api.openweathermap.org/data/2.5/weather?q=" +
+            txt +
+            "&units=metric&lang=es&appid=311271c272848a409a7d797df469bd5c";
+          //console.log(url);
+          $.get(
+            url,
+            function (res) {
+              console.dir(res);
+              var html_str = "";
+              html_str +=
+                "<h1>" +
+                res.name +
+                " : " +
+                res.weather[0].description +
+                "</h1>";
+              html_str += "<h1>Temperatura : " + res.main.temp + " C°</h1>";
+              html_str +=
+                "<h1>Coord : " +
+                res.coord.lat +
+                " , " +
+                res.coord.lon +
+                "</h1>";
+              $("#result").html(html_str);
+            },
+            "json"
+          );
+          return false;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <form>
+        <label>City:</label>
+        <input id="txt" type="text" />
+        <input id="submit" type="submit" value="Submit Query" />
+      </form>
+      <div id="result"></div>
+    </div>
+  </body>
+</html>
