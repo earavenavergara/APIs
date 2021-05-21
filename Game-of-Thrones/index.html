@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game of Thrones</title>
+    <style>
+      #container {
+        font-family: "Courier New", Courier, monospace;
+      }
+      #imagen {
+        text-align: center;
+      }
+      img {
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+        border: 1px solid black;
+      }
+      #detalles {
+        width: 450px;
+        height: 300px;
+        padding-left: 40px;
+        border: 1px solid black;
+        margin: 0 auto;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("img").click(function () {
+          var val = $(this).attr("alt");
+          $.get(
+            "https://anapioficeandfire.com/api/houses/" + val,
+            function (res) {
+              console.dir(res);
+              var html_str = "<h2>House Details</h2>";
+              html_str += "<h3>Name: <small>" + res.name + "</small></h3>";
+              html_str += "<h3>Words: <small>" + res.words + "</small></h3>";
+              html_str += "<h3>Titles: </h3>";
+              html_str += "<ul>";
+              for (var i = 0; i < res.titles.length; i++) {
+                html_str += "<li>" + res.titles[i] + "</li>";
+              }
+              html_str += "</ul>";
+              $("#detalles").html(html_str);
+            },
+            "json"
+          );
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="imagen">
+        <img src="img/stark.jpg" alt="362" />
+        <img src="img/targaryen.jpg" alt="378" />
+        <img src="img/lannister.jpg" alt="229" />
+        <img src="img/baratheon.png" alt="15" />
+      </div>
+      <div id="detalles"></div>
+    </div>
+  </body>
+</html>
